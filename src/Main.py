@@ -18,8 +18,10 @@ start_time = time.time()
 for post in reddit.subreddit(SUBREDDIT).stream.submissions():
     if post.created_utc > start_time:
         if any(term in post.title.lower() for term in SCRAPE_TERMS):
-            print(post.title, post.url)
+            print("FOUND: ", post.title, post.url)
             notification.show_toast(post.title, post.url, duration=3)
             webbrowser.open_new_tab(post.url)
             with open('posts.txt', 'a+', encoding="utf-8") as file:
                 file.write(post.title + ", Link: " + post.url + "\n")
+        else:
+            print(post.title)
